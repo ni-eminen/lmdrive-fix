@@ -1,2 +1,5 @@
 LAVIS/lavis/output/
 vision_encoder/sensor_pretrain.pth.tar.r50
+slurm-*
+__pycache__/
+*.pyc
