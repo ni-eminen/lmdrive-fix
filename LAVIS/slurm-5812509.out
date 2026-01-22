@@ -1,0 +1,217 @@
+master_addr is only used for static rdzv_backend and when rdzv_endpoint is not specified.
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/diffusers/models/cross_attention.py:30: FutureWarning: Importing from cross_attention is deprecated. Please import from diffusers.models.attention_processor instead.
+  deprecate(
+| distributed init (rank 0, world 1): env://
+2026-01-17 16:35:57,786 [INFO] 
+=====  Running Parameters    =====
+2026-01-17 16:35:57,786 [INFO] {
+    "amp": true,
+    "batch_size_eval": 4,
+    "batch_size_train": 4,
+    "device": "cuda",
+    "dist_backend": "nccl",
+    "dist_url": "env://",
+    "distributed": true,
+    "evaluate": false,
+    "gpu": 0,
+    "init_lr": 0.0001,
+    "lr_sched": "linear_warmup_cosine_lr",
+    "max_epoch": 15,
+    "min_lr": 1e-05,
+    "num_workers": 24,
+    "output_dir": "output/drivegpt/cvpr/",
+    "rank": 0,
+    "resume_ckpt_path": null,
+    "seed": 42,
+    "task": "carla_drive",
+    "train_splits": [
+        "train"
+    ],
+    "valid_splits": [
+        "val"
+    ],
+    "warmup_lr": 1e-06,
+    "warmup_steps": 2000,
+    "weight_decay": 0.06,
+    "world_size": 1
+}
+2026-01-17 16:35:57,787 [INFO] 
+======  Dataset Attributes  ======
+2026-01-17 16:35:57,787 [INFO] 
+======== carla_voice =======
+2026-01-17 16:35:57,787 [INFO] {
+    "build_info": {
+        "annotations": {
+            "train": {
+                "enable_notice": true,
+                "enable_start_frame_augment": true,
+                "scale": [
+                    0.95,
+                    1.05
+                ],
+                "storage": "/scratch/project_2014099/data-lmdrive/data/Town10",
+                "token_max_length": 40,
+                "towns": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    10
+                ],
+                "weathers": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19
+                ]
+            },
+            "val": {
+                "enable_notice": true,
+                "enable_start_frame_augment": true,
+                "scale": [
+                    0.95,
+                    1.05
+                ],
+                "storage": "/scratch/project_2014099/data-lmdrive/data/Town10",
+                "token_max_length": 40,
+                "towns": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    10
+                ],
+                "weathers": [
+                    12,
+                    13,
+                    20
+                ]
+            }
+        }
+    }
+}
+2026-01-17 16:35:57,787 [INFO] 
+======  Model Attributes  ======
+2026-01-17 16:35:57,788 [INFO] {
+    "arch": "vicuna_drive",
+    "drop_path_rate": 0,
+    "finetuned": "",
+    "freeze_vit": true,
+    "image_size": 224,
+    "llm_model": "bczhou/TinyLLaVA-2.0B",
+    "load_finetuned": false,
+    "load_pretrained": true,
+    "max_txt_len": 64,
+    "model_type": "vicuna7b",
+    "num_query_token": 32,
+    "preception_model": "memfuser_baseline_e1d3_return_feature",
+    "preception_model_ckpt": "../vision_encoder/sensor_pretrain.pth.tar.r50",
+    "pretrained": "https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna7b_trimmed.pth",
+    "prompt": "",
+    "split_section_num_for_visual_encoder": 2,
+    "use_extra_prompt": false,
+    "use_grad_checkpoint": false,
+    "use_notice_prompt": true,
+    "vit_precision": "fp16"
+}
+2026-01-17 16:35:58,492 [INFO] Scenario nums: 15159
+2026-01-17 16:35:58,961 [INFO] Scenario nums: 2822
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/huggingface_hub/file_download.py:1142: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+2026-01-17 16:35:59,698 [INFO] Loading pretrained weights from url (https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth)
+Downloading: "https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth" to /users/matiasni/.cache/torch/hub/checkpoints/resnet50d_ra2-464e36ba.pth
+Traceback (most recent call last):
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/hub.py", line 636, in download_url_to_file
+    f.write(buffer)
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/tempfile.py", line 489, in func_wrapper
+    return func(*args, **kwargs)
+OSError: [Errno 122] Disk quota exceeded
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/projappl/project_2014099/lmdrive-original/LAVIS/train.py", line 103, in <module>
+    main()
+  File "/projappl/project_2014099/lmdrive-original/LAVIS/train.py", line 94, in main
+    model = task.build_model(cfg)
+  File "/projappl/project_2014099/lmdrive-original/LAVIS/lavis/tasks/drive.py", line 35, in build_model
+    return model_cls.from_config(model_config)
+  File "/projappl/project_2014099/lmdrive-original/LAVIS/lavis/models/drive_models/drive.py", line 575, in from_config
+    model = cls(
+  File "/projappl/project_2014099/lmdrive-original/LAVIS/lavis/models/drive_models/drive.py", line 83, in __init__
+    self.visual_encoder = create_model(preception_model) #TODO with timm
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/models/factory.py", line 87, in create_model
+    model = create_fn(pretrained=pretrained, **kwargs)
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/models/memfuser.py", line 951, in memfuser_baseline_e1d3_return_feature
+    model = Memfuser(
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/models/memfuser.py", line 563, in __init__
+    self.rgb_backbone = resnet50d(
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/models/resnet.py", line 1089, in resnet50d
+    return _create_resnet("resnet50d", pretrained, **model_args)
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/models/resnet.py", line 989, in _create_resnet
+    return build_model_with_cfg(
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/models/helpers.py", line 526, in build_model_with_cfg
+    load_pretrained(
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/models/helpers.py", line 217, in load_pretrained
+    state_dict = load_state_dict_from_url(
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/hub.py", line 746, in load_state_dict_from_url
+    download_url_to_file(url, cached_file, hash_prefix, progress=progress)
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/hub.py", line 649, in download_url_to_file
+    f.close()
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/tempfile.py", line 515, in close
+    self._closer.close()
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/tempfile.py", line 449, in close
+    self.file.close()
+OSError: [Errno 122] Disk quota exceeded
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 0 (pid: 2738879) of binary: /MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/bin/python
+Traceback (most recent call last):
+  File "/projappl/project_2014099/envlmdrive/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 346, in wrapper
+    return f(*args, **kwargs)
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/distributed/run.py", line 794, in main
+    run(args)
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/distributed/run.py", line 785, in run
+    elastic_launch(
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/distributed/launcher/api.py", line 134, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/distributed/launcher/api.py", line 250, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/projappl/project_2014099/lmdrive-original/LAVIS/train.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-17_16:36:04
+  host      : g1101.mahti.csc.fi
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 2738879)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================
+srun: error: g1101: task 0: Exited with exit code 1
+srun: Terminating StepId=5812509.0

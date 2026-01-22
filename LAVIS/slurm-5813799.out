@@ -1,0 +1,664 @@
+master_addr is only used for static rdzv_backend and when rdzv_endpoint is not specified.
+WARNING:torch.distributed.run:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/diffusers/models/cross_attention.py:30: FutureWarning: Importing from cross_attention is deprecated. Please import from diffusers.models.attention_processor instead.
+  deprecate(
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/diffusers/models/cross_attention.py:30: FutureWarning: Importing from cross_attention is deprecated. Please import from diffusers.models.attention_processor instead.
+  deprecate(
+| distributed init (rank 0, world 2): env://
+| distributed init (rank 1, world 2): env://
+2026-01-17 20:23:13,841 [INFO] 
+=====  Running Parameters    =====
+2026-01-17 20:23:13,841 [INFO] {
+    "amp": true,
+    "batch_size_eval": 2,
+    "batch_size_train": 2,
+    "device": "cuda",
+    "dist_backend": "nccl",
+    "dist_url": "env://",
+    "distributed": true,
+    "evaluate": false,
+    "gpu": 0,
+    "init_lr": 0.0001,
+    "lr_sched": "linear_warmup_cosine_lr",
+    "max_epoch": 15,
+    "min_lr": 1e-05,
+    "num_workers": 24,
+    "output_dir": "output/drivegpt/cvpr/",
+    "rank": 0,
+    "resume_ckpt_path": null,
+    "seed": 42,
+    "task": "carla_drive",
+    "train_splits": [
+        "train"
+    ],
+    "valid_splits": [
+        "val"
+    ],
+    "warmup_lr": 1e-06,
+    "warmup_steps": 2000,
+    "weight_decay": 0.06,
+    "world_size": 2
+}
+2026-01-17 20:23:13,841 [INFO] 
+======  Dataset Attributes  ======
+2026-01-17 20:23:13,841 [INFO] 
+======== carla_voice =======
+2026-01-17 20:23:13,842 [INFO] {
+    "build_info": {
+        "annotations": {
+            "train": {
+                "enable_notice": true,
+                "enable_start_frame_augment": true,
+                "scale": [
+                    0.95,
+                    1.05
+                ],
+                "storage": "/scratch/project_2014099/data-lmdrive/data/Town10",
+                "token_max_length": 40,
+                "towns": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    10
+                ],
+                "weathers": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19
+                ]
+            },
+            "val": {
+                "enable_notice": true,
+                "enable_start_frame_augment": true,
+                "scale": [
+                    0.95,
+                    1.05
+                ],
+                "storage": "/scratch/project_2014099/data-lmdrive/data/Town10",
+                "token_max_length": 40,
+                "towns": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    10
+                ],
+                "weathers": [
+                    12,
+                    13,
+                    20
+                ]
+            }
+        }
+    }
+}
+2026-01-17 20:23:13,842 [INFO] 
+======  Model Attributes  ======
+2026-01-17 20:23:13,842 [INFO] {
+    "arch": "vicuna_drive",
+    "drop_path_rate": 0,
+    "finetuned": "",
+    "freeze_vit": true,
+    "image_size": 224,
+    "llm_model": "bczhou/TinyLLaVA-2.0B",
+    "load_finetuned": false,
+    "load_pretrained": true,
+    "max_txt_len": 64,
+    "model_type": "vicuna7b",
+    "num_query_token": 32,
+    "preception_model": "memfuser_baseline_e1d3_return_feature",
+    "preception_model_ckpt": "../vision_encoder/sensor_pretrain.pth.tar.r50",
+    "pretrained": "https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna7b_trimmed.pth",
+    "prompt": "",
+    "split_section_num_for_visual_encoder": 2,
+    "use_extra_prompt": false,
+    "use_grad_checkpoint": false,
+    "use_notice_prompt": true,
+    "vit_precision": "fp16"
+}
+2026-01-17 20:23:13,859 [INFO] Scenario nums: 41
+2026-01-17 20:23:13,879 [INFO] Scenario nums: 29
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/huggingface_hub/file_download.py:1142: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/huggingface_hub/file_download.py:1142: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+2026-01-17 20:23:14,581 [INFO] Loading pretrained weights from url (https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/resnet50d_ra2-464e36ba.pth)
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/nn/modules/conv.py:459: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at ../aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/nn/modules/conv.py:459: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at ../aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+2026-01-17 20:23:18,584 [INFO] freeze vision encoder
+Loading Q-Former
+2026-01-17 20:23:47,157 [INFO] Start training
+2026-01-17 20:23:47,854 [INFO] dataset_ratios not specified, datasets will be concatenated (map-style datasets) or chained (webdataset.DataPipeline).
+2026-01-17 20:23:47,854 [INFO] Loaded 41 records for train split from the dataset.
+41
+29
+2026-01-17 20:23:47,854 [INFO] Loaded 29 records for val split from the dataset.
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/utils/data/dataloader.py:560: UserWarning: This DataLoader will create 24 worker processes in total. Our suggested max number of worker in current system is 10, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(_create_warning_msg(
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/utils/data/dataloader.py:560: UserWarning: This DataLoader will create 24 worker processes in total. Our suggested max number of worker in current system is 10, which is smaller than what this DataLoader is going to create. Please be aware that excessive worker creation might get DataLoader running slow or even freeze, lower the worker number to avoid potential slowness/freeze if necessary.
+  warnings.warn(_create_warning_msg(
+trainable parameter shape:  torch.Size([1, 4, 768])
+trainable parameter shape:  torch.Size([2048, 2048])
+trainable parameter shape:  torch.Size([10, 2048])
+trainable parameter shape:  torch.Size([2048, 2048])
+trainable parameter shape:  torch.Size([2, 2048])
+trainable parameter shape:  torch.Size([50297, 768])
+trainable parameter shape:  torch.Size([512, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 256])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([768, 768])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([3072, 768])
+trainable parameter shape:  torch.Size([768, 3072])
+trainable parameter shape:  torch.Size([2048, 768])
+trainable parameter shape:  torch.Size([256])
+trainable parameter shape:  torch.Size([256])
+trainable parameter shape:  torch.Size([2048])
+trainable parameter shape:  torch.Size([10])
+trainable parameter shape:  torch.Size([2048])
+trainable parameter shape:  torch.Size([2])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([3072])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([768])
+trainable parameter shape:  torch.Size([2048])
+2026-01-17 20:23:47,860 [INFO] number of trainable parameters: 200225548
+2026-01-17 20:23:47,861 [INFO] Start training epoch 0, 10 iters per inner epoch.
+Train: data epoch: [0]  [ 0/10]  eta: 0:02:29  lr: 0.000001  loss: 3.5579  waypoints_loss: 3.4005 (3.4005)  end_loss: 0.7874 (0.7874)  end_acc: 0.4125 (0.4125)  time: 14.9527  data: 0.0000  max mem: 16995
+2026-01-17 20:24:02,829 [INFO] Reducer buckets have been rebuilt in this iteration.
+Train: data epoch: [0]  [ 9/10]  eta: 0:00:02  lr: 0.000001  loss: 4.2780  waypoints_loss: 3.4217 (3.8433)  end_loss: 1.0241 (1.0893)  end_acc: 0.3250 (0.3668)  time: 2.0658  data: 0.0000  max mem: 18384
+Train: data epoch: [0] Total time: 0:00:20 (2.0662 s / it)
+2026-01-17 20:24:08,529 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:52    time: 6.5266  data: 5.9992  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.2739  data: 0.7777  max mem: 18701
+Evaluation Total time: 0:00:10 (1.2742 s / it)
+2026-01-17 20:24:19,308 [INFO] Eval Epoch 0, loss: 4.606, waypoints_loss: 4.415, end_loss: 0.955, end_acc: 0.373, 
+2026-01-17 20:24:19,329 [INFO] Saving checkpoint at epoch 0 to /projappl/project_2014099/lmdrive-original/LAVIS/lavis/output/drivegpt/cvpr/20260117202312/checkpoint_best.pth.
+2026-01-17 20:24:23,726 [INFO] Start training
+2026-01-17 20:24:23,747 [INFO] Start training epoch 1, 10 iters per inner epoch.
+Train: data epoch: [1]  [ 0/10]  eta: 0:01:47  lr: 0.000099  loss: 4.3710  waypoints_loss: 4.1594 (4.1594)  end_loss: 1.0578 (1.0578)  end_acc: 0.2909 (0.2909)  time: 10.7066  data: 0.0000  max mem: 18701
+Train: data epoch: [1]  [ 9/10]  eta: 0:00:01  lr: 0.000099  loss: 2.0627  waypoints_loss: 2.4018 (2.7439)  end_loss: 0.1413 (0.2364)  end_acc: 0.9672 (0.9014)  time: 1.6409  data: 0.0000  max mem: 18701
+Train: data epoch: [1] Total time: 0:00:16 (1.6410 s / it)
+2026-01-17 20:24:40,161 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:50    time: 6.2906  data: 5.7558  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.2300  data: 0.7603  max mem: 18701
+Evaluation Total time: 0:00:09 (1.2303 s / it)
+2026-01-17 20:24:50,035 [INFO] Eval Epoch 1, loss: 2.174, waypoints_loss: 2.143, end_loss: 0.158, end_acc: 0.969, 
+2026-01-17 20:24:50,056 [INFO] Saving checkpoint at epoch 1 to /projappl/project_2014099/lmdrive-original/LAVIS/lavis/output/drivegpt/cvpr/20260117202312/checkpoint_best.pth.
+2026-01-17 20:24:55,147 [INFO] Start training
+2026-01-17 20:24:55,168 [INFO] Start training epoch 2, 10 iters per inner epoch.
+Train: data epoch: [2]  [ 0/10]  eta: 0:01:39  lr: 0.000096  loss: 2.0555  waypoints_loss: 2.0255 (2.0255)  end_loss: 0.1497 (0.1497)  end_acc: 0.9718 (0.9718)  time: 9.9384  data: 0.0000  max mem: 18701
+Train: data epoch: [2]  [ 9/10]  eta: 0:00:01  lr: 0.000096  loss: 2.3893  waypoints_loss: 2.2407 (2.2035)  end_loss: 0.1543 (0.2129)  end_acc: 0.9718 (0.9660)  time: 1.6139  data: 0.0000  max mem: 18701
+Train: data epoch: [2] Total time: 0:00:16 (1.6141 s / it)
+2026-01-17 20:25:11,315 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:45    time: 5.6751  data: 5.1283  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.1421  data: 0.6707  max mem: 18701
+Evaluation Total time: 0:00:09 (1.1424 s / it)
+2026-01-17 20:25:21,153 [INFO] Eval Epoch 2, loss: 2.253, waypoints_loss: 2.224, end_loss: 0.143, end_acc: 0.969, 
+2026-01-17 20:25:21,155 [INFO] Start training
+2026-01-17 20:25:21,177 [INFO] Start training epoch 3, 10 iters per inner epoch.
+Train: data epoch: [3]  [ 0/10]  eta: 0:01:53  lr: 0.000091  loss: 2.1997  waypoints_loss: 2.1787 (2.1787)  end_loss: 0.1052 (0.1052)  end_acc: 0.9750 (0.9750)  time: 11.3502  data: 0.0000  max mem: 18701
+Train: data epoch: [3]  [ 9/10]  eta: 0:00:01  lr: 0.000091  loss: 1.7621  waypoints_loss: 2.1520 (2.1429)  end_loss: 0.1093 (0.1211)  end_acc: 0.9718 (0.9708)  time: 1.7065  data: 0.0000  max mem: 18701
+Train: data epoch: [3] Total time: 0:00:17 (1.7067 s / it)
+2026-01-17 20:25:38,248 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:44    time: 5.5569  data: 5.0113  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.1314  data: 0.6604  max mem: 18701
+Evaluation Total time: 0:00:09 (1.1318 s / it)
+2026-01-17 20:25:48,133 [INFO] Eval Epoch 3, loss: 1.805, waypoints_loss: 1.776, end_loss: 0.147, end_acc: 0.968, 
+2026-01-17 20:25:48,154 [INFO] Saving checkpoint at epoch 3 to /projappl/project_2014099/lmdrive-original/LAVIS/lavis/output/drivegpt/cvpr/20260117202312/checkpoint_best.pth.
+2026-01-17 20:25:53,372 [INFO] Start training
+2026-01-17 20:25:53,393 [INFO] Start training epoch 4, 10 iters per inner epoch.
+Train: data epoch: [4]  [ 0/10]  eta: 0:01:38  lr: 0.000085  loss: 1.3863  waypoints_loss: 1.3175 (1.3175)  end_loss: 0.3440 (0.3440)  end_acc: 0.9375 (0.9375)  time: 9.8990  data: 0.0000  max mem: 18701
+Train: data epoch: [4]  [ 9/10]  eta: 0:00:01  lr: 0.000085  loss: 1.7682  waypoints_loss: 1.6916 (1.9063)  end_loss: 0.1165 (0.1459)  end_acc: 0.9740 (0.9678)  time: 1.5881  data: 0.0000  max mem: 18701
+Train: data epoch: [4] Total time: 0:00:15 (1.5882 s / it)
+2026-01-17 20:26:09,280 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:50    time: 6.3225  data: 5.7863  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.2260  data: 0.7563  max mem: 18701
+Evaluation Total time: 0:00:09 (1.2263 s / it)
+2026-01-17 20:26:19,515 [INFO] Eval Epoch 4, loss: 1.861, waypoints_loss: 1.834, end_loss: 0.137, end_acc: 0.969, 
+2026-01-17 20:26:19,517 [INFO] Start training
+2026-01-17 20:26:19,538 [INFO] Start training epoch 5, 10 iters per inner epoch.
+Train: data epoch: [5]  [ 0/10]  eta: 0:01:43  lr: 0.000077  loss: 1.6055  waypoints_loss: 1.5770 (1.5770)  end_loss: 0.1428 (0.1428)  end_acc: 0.9600 (0.9600)  time: 10.3217  data: 0.0000  max mem: 18701
+Train: data epoch: [5]  [ 9/10]  eta: 0:00:01  lr: 0.000077  loss: 2.3601  waypoints_loss: 1.6455 (1.8654)  end_loss: 0.1670 (0.1655)  end_acc: 0.9747 (0.9711)  time: 1.6626  data: 0.0000  max mem: 18701
+Train: data epoch: [5] Total time: 0:00:16 (1.6628 s / it)
+2026-01-17 20:26:36,170 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:50    time: 6.3173  data: 5.7820  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.2327  data: 0.7624  max mem: 18701
+Evaluation Total time: 0:00:09 (1.2330 s / it)
+2026-01-17 20:26:46,107 [INFO] Eval Epoch 5, loss: 1.640, waypoints_loss: 1.609, end_loss: 0.156, end_acc: 0.969, 
+2026-01-17 20:26:46,127 [INFO] Saving checkpoint at epoch 5 to /projappl/project_2014099/lmdrive-original/LAVIS/lavis/output/drivegpt/cvpr/20260117202312/checkpoint_best.pth.
+2026-01-17 20:26:51,349 [INFO] Start training
+2026-01-17 20:26:51,370 [INFO] Start training epoch 6, 10 iters per inner epoch.
+Train: data epoch: [6]  [ 0/10]  eta: 0:01:46  lr: 0.000069  loss: 3.5250  waypoints_loss: 3.4824 (3.4824)  end_loss: 0.2131 (0.2131)  end_acc: 0.9747 (0.9747)  time: 10.6500  data: 0.0000  max mem: 18701
+Train: data epoch: [6]  [ 9/10]  eta: 0:00:01  lr: 0.000069  loss: 2.2201  waypoints_loss: 1.4526 (1.6517)  end_loss: 0.1701 (0.1740)  end_acc: 0.9733 (0.9701)  time: 1.6375  data: 0.0000  max mem: 18701
+Train: data epoch: [6] Total time: 0:00:16 (1.6376 s / it)
+2026-01-17 20:27:07,751 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:48    time: 6.0197  data: 5.4861  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.1820  data: 0.7112  max mem: 18701
+Evaluation Total time: 0:00:09 (1.1824 s / it)
+2026-01-17 20:27:18,044 [INFO] Eval Epoch 6, loss: 1.813, waypoints_loss: 1.784, end_loss: 0.146, end_acc: 0.969, 
+2026-01-17 20:27:18,047 [INFO] Start training
+2026-01-17 20:27:18,068 [INFO] Start training epoch 7, 10 iters per inner epoch.
+Train: data epoch: [7]  [ 0/10]  eta: 0:01:51  lr: 0.000060  loss: 1.6551  waypoints_loss: 1.6321 (1.6321)  end_loss: 0.1152 (0.1152)  end_acc: 0.9677 (0.9677)  time: 11.1130  data: 0.0000  max mem: 18701
+Train: data epoch: [7]  [ 9/10]  eta: 0:00:01  lr: 0.000060  loss: 1.3251  waypoints_loss: 1.6321 (1.6606)  end_loss: 0.1175 (0.1492)  end_acc: 0.9672 (0.9643)  time: 1.6818  data: 0.0000  max mem: 18701
+Train: data epoch: [7] Total time: 0:00:16 (1.6820 s / it)
+2026-01-17 20:27:34,893 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:49    time: 6.1535  data: 5.6148  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.2130  data: 0.7429  max mem: 18701
+Evaluation Total time: 0:00:09 (1.2133 s / it)
+2026-01-17 20:27:44,613 [INFO] Eval Epoch 7, loss: 1.738, waypoints_loss: 1.709, end_loss: 0.145, end_acc: 0.969, 
+2026-01-17 20:27:44,616 [INFO] Start training
+2026-01-17 20:27:44,637 [INFO] Start training epoch 8, 10 iters per inner epoch.
+Train: data epoch: [8]  [ 0/10]  eta: 0:01:40  lr: 0.000050  loss: 1.5239  waypoints_loss: 1.5000 (1.5000)  end_loss: 0.1197 (0.1197)  end_acc: 0.9726 (0.9726)  time: 10.0131  data: 0.0000  max mem: 18701
+Train: data epoch: [8]  [ 9/10]  eta: 0:00:01  lr: 0.000050  loss: 1.9980  waypoints_loss: 1.5000 (1.7951)  end_loss: 0.1197 (0.1320)  end_acc: 0.9672 (0.9682)  time: 1.5784  data: 0.0000  max mem: 18701
+Train: data epoch: [8] Total time: 0:00:15 (1.5786 s / it)
+2026-01-17 20:28:00,427 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:50    time: 6.3667  data: 5.8464  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.2428  data: 0.7723  max mem: 18701
+Evaluation Total time: 0:00:09 (1.2431 s / it)
+2026-01-17 20:28:10,385 [INFO] Eval Epoch 8, loss: 1.682, waypoints_loss: 1.656, end_loss: 0.129, end_acc: 0.969, 
+2026-01-17 20:28:10,387 [INFO] Start training
+2026-01-17 20:28:10,409 [INFO] Start training epoch 9, 10 iters per inner epoch.
+Train: data epoch: [9]  [ 0/10]  eta: 0:01:49  lr: 0.000041  loss: 1.9169  waypoints_loss: 1.8951 (1.8951)  end_loss: 0.1094 (0.1094)  end_acc: 0.9750 (0.9750)  time: 10.9919  data: 0.0000  max mem: 18701
+Train: data epoch: [9]  [ 9/10]  eta: 0:00:01  lr: 0.000041  loss: 2.0190  waypoints_loss: 1.8951 (1.7790)  end_loss: 0.1029 (0.1129)  end_acc: 0.9737 (0.9715)  time: 1.6727  data: 0.0000  max mem: 18701
+Train: data epoch: [9] Total time: 0:00:16 (1.6729 s / it)
+2026-01-17 20:28:27,141 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:51    time: 6.4441  data: 5.9083  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.2456  data: 0.7717  max mem: 18701
+Evaluation Total time: 0:00:09 (1.2459 s / it)
+2026-01-17 20:28:37,255 [INFO] Eval Epoch 9, loss: 1.665, waypoints_loss: 1.639, end_loss: 0.132, end_acc: 0.969, 
+2026-01-17 20:28:37,257 [INFO] Start training
+2026-01-17 20:28:37,279 [INFO] Start training epoch 10, 10 iters per inner epoch.
+Train: data epoch: [10]  [ 0/10]  eta: 0:01:46  lr: 0.000033  loss: 1.1137  waypoints_loss: 1.0923 (1.0923)  end_loss: 0.1073 (0.1073)  end_acc: 0.9750 (0.9750)  time: 10.6582  data: 0.0000  max mem: 18701
+Train: data epoch: [10]  [ 9/10]  eta: 0:00:01  lr: 0.000033  loss: 0.9017  waypoints_loss: 1.3423 (1.4677)  end_loss: 0.1073 (0.1166)  end_acc: 0.9710 (0.9706)  time: 1.6418  data: 0.0000  max mem: 18701
+Train: data epoch: [10] Total time: 0:00:16 (1.6420 s / it)
+2026-01-17 20:28:53,702 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:55    time: 6.9759  data: 6.4455  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.3090  data: 0.8398  max mem: 18701
+Evaluation Total time: 0:00:10 (1.3093 s / it)
+2026-01-17 20:29:04,228 [INFO] Eval Epoch 10, loss: 1.664, waypoints_loss: 1.639, end_loss: 0.123, end_acc: 0.969, 
+2026-01-17 20:29:04,231 [INFO] Start training
+2026-01-17 20:29:04,252 [INFO] Start training epoch 11, 10 iters per inner epoch.
+Train: data epoch: [11]  [ 0/10]  eta: 0:01:43  lr: 0.000025  loss: 0.9811  waypoints_loss: 0.9564 (0.9564)  end_loss: 0.1236 (0.1236)  end_acc: 0.9677 (0.9677)  time: 10.3553  data: 0.0000  max mem: 18701
+Train: data epoch: [11]  [ 9/10]  eta: 0:00:01  lr: 0.000025  loss: 2.1404  waypoints_loss: 1.3514 (1.6998)  end_loss: 0.1074 (0.1179)  end_acc: 0.9688 (0.9696)  time: 1.6044  data: 0.0000  max mem: 18701
+Train: data epoch: [11] Total time: 0:00:16 (1.6045 s / it)
+2026-01-17 20:29:20,301 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:45    time: 5.7193  data: 5.1948  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.1478  data: 0.6782  max mem: 18701
+Evaluation Total time: 0:00:09 (1.1481 s / it)
+2026-01-17 20:29:30,266 [INFO] Eval Epoch 11, loss: 1.660, waypoints_loss: 1.638, end_loss: 0.113, end_acc: 0.969, 
+2026-01-17 20:29:30,268 [INFO] Start training
+2026-01-17 20:29:30,290 [INFO] Start training epoch 12, 10 iters per inner epoch.
+Train: data epoch: [12]  [ 0/10]  eta: 0:01:51  lr: 0.000019  loss: 1.1826  waypoints_loss: 1.1623 (1.1623)  end_loss: 0.1018 (0.1018)  end_acc: 0.9750 (0.9750)  time: 11.1695  data: 0.0000  max mem: 18701
+Train: data epoch: [12]  [ 9/10]  eta: 0:00:01  lr: 0.000019  loss: 1.3063  waypoints_loss: 1.3467 (1.6577)  end_loss: 0.1221 (0.1225)  end_acc: 0.9672 (0.9682)  time: 1.6866  data: 0.0000  max mem: 18701
+Train: data epoch: [12] Total time: 0:00:16 (1.6867 s / it)
+2026-01-17 20:29:47,162 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:44    time: 5.6241  data: 5.0812  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.1405  data: 0.6687  max mem: 18701
+Evaluation Total time: 0:00:09 (1.1408 s / it)
+2026-01-17 20:29:57,301 [INFO] Eval Epoch 12, loss: 1.608, waypoints_loss: 1.584, end_loss: 0.119, end_acc: 0.969, 
+2026-01-17 20:29:57,322 [INFO] Saving checkpoint at epoch 12 to /projappl/project_2014099/lmdrive-original/LAVIS/lavis/output/drivegpt/cvpr/20260117202312/checkpoint_best.pth.
+2026-01-17 20:30:02,566 [INFO] Start training
+2026-01-17 20:30:02,587 [INFO] Start training epoch 13, 10 iters per inner epoch.
+Train: data epoch: [13]  [ 0/10]  eta: 0:01:45  lr: 0.000014  loss: 1.5376  waypoints_loss: 1.5039 (1.5039)  end_loss: 0.1683 (0.1683)  end_acc: 0.9512 (0.9512)  time: 10.5842  data: 0.0000  max mem: 18701
+Train: data epoch: [13]  [ 9/10]  eta: 0:00:01  lr: 0.000014  loss: 1.2283  waypoints_loss: 1.3621 (1.5602)  end_loss: 0.1006 (0.1135)  end_acc: 0.9750 (0.9701)  time: 1.6449  data: 0.0000  max mem: 18701
+Train: data epoch: [13] Total time: 0:00:16 (1.6451 s / it)
+2026-01-17 20:30:19,043 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:44    time: 5.6075  data: 5.0575  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.1483  data: 0.6755  max mem: 18701
+Evaluation Total time: 0:00:09 (1.1486 s / it)
+2026-01-17 20:30:28,321 [INFO] Eval Epoch 13, loss: 1.686, waypoints_loss: 1.663, end_loss: 0.116, end_acc: 0.969, 
+2026-01-17 20:30:28,324 [INFO] Start training
+2026-01-17 20:30:28,345 [INFO] Start training epoch 14, 10 iters per inner epoch.
+Train: data epoch: [14]  [ 0/10]  eta: 0:01:46  lr: 0.000011  loss: 1.1941  waypoints_loss: 1.1749 (1.1749)  end_loss: 0.0962 (0.0962)  end_acc: 0.9750 (0.9750)  time: 10.6447  data: 0.0000  max mem: 18701
+Train: data epoch: [14]  [ 9/10]  eta: 0:00:01  lr: 0.000011  loss: 1.0660  waypoints_loss: 1.2498 (1.3747)  end_loss: 0.0962 (0.1279)  end_acc: 0.9722 (0.9667)  time: 1.6443  data: 0.0000  max mem: 18701
+Train: data epoch: [14] Total time: 0:00:16 (1.6444 s / it)
+2026-01-17 20:30:44,794 [INFO] Evaluating on val.
+Evaluation  [0/8]  eta: 0:00:51    time: 6.4648  data: 5.9439  max mem: 18701
+Evaluation  [7/8]  eta: 0:00:01    time: 1.2564  data: 0.7860  max mem: 18701
+Evaluation Total time: 0:00:10 (1.2567 s / it)
+2026-01-17 20:30:54,861 [INFO] Eval Epoch 14, loss: 1.682, waypoints_loss: 1.658, end_loss: 0.120, end_acc: 0.968, 
+2026-01-17 20:30:54,863 [INFO] Training time 0:07:07

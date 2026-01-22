@@ -1,0 +1,60 @@
+Traceback (most recent call last):
+  File "/projappl/project_2014099/lmdrive-original/LAVIS/train.py", line 16, in <module>
+    import lavis.tasks as tasks
+  File "/projappl/project_2014099/lmdrive-original/LAVIS/lavis/__init__.py", line 15, in <module>
+    from lavis.datasets.builders import *
+  File "/projappl/project_2014099/lmdrive-original/LAVIS/lavis/datasets/builders/__init__.py", line 8, in <module>
+    from lavis.datasets.builders.base_dataset_builder import load_dataset_config
+  File "/projappl/project_2014099/lmdrive-original/LAVIS/lavis/datasets/builders/base_dataset_builder.py", line 13, in <module>
+    import lavis.common.utils as utils
+  File "/projappl/project_2014099/lmdrive-original/LAVIS/lavis/common/utils.py", line 27, in <module>
+    from lavis.common.dist_utils import download_cached_file
+  File "/projappl/project_2014099/lmdrive-original/LAVIS/lavis/common/dist_utils.py", line 14, in <module>
+    import timm.models.hub as timm_hub
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/__init__.py", line 4, in <module>
+    from .models import create_model
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/models/__init__.py", line 1, in <module>
+    from .byoanet import *
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/models/byoanet.py", line 15, in <module>
+    from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/data/__init__.py", line 1, in <module>
+    from .auto_augment import (
+  File "/projappl/project_2014099/lmdrive-obj/vision_encoder/timm/data/auto_augment.py", line 23, in <module>
+    from PIL import Image, ImageOps, ImageEnhance, ImageChops
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/PIL/Image.py", line 100, in <module>
+    from . import _imaging as core
+ImportError: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.29' not found (required by /MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/PIL/../../.././libLerc.so.4)
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 0 (pid: 2676979) of binary: /projappl/project_2014099/envlmdrive/bin/python
+Traceback (most recent call last):
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/distributed/run.py", line 798, in <module>
+    main()
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 346, in wrapper
+    return f(*args, **kwargs)
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/distributed/run.py", line 794, in main
+    run(args)
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/distributed/run.py", line 785, in run
+    elastic_launch(
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/distributed/launcher/api.py", line 134, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torch/distributed/launcher/api.py", line 250, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/projappl/project_2014099/lmdrive-original/LAVIS/train.py FAILED
+------------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-01-17_13:20:56
+  host      : g1101.mahti.csc.fi
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 2676979)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

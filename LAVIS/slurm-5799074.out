@@ -1,0 +1,191 @@
+WARNING:__main__:
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torchvision/datapoints/__init__.py:12: UserWarning: The torchvision.datapoints and torchvision.transforms.v2 namespaces are still Beta. While we do not expect major breaking changes, some APIs may still change according to user feedback. Please submit any feedback you may have in this issue: https://github.com/pytorch/vision/issues/6753, and you can also check out https://github.com/pytorch/vision/issues/7319 to learn more about the APIs that we suspect might involve future changes. You can silence this warning by calling torchvision.disable_beta_transforms_warning().
+  warnings.warn(_BETA_TRANSFORMS_WARNING)
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torchvision/datapoints/__init__.py:12: UserWarning: The torchvision.datapoints and torchvision.transforms.v2 namespaces are still Beta. While we do not expect major breaking changes, some APIs may still change according to user feedback. Please submit any feedback you may have in this issue: https://github.com/pytorch/vision/issues/6753, and you can also check out https://github.com/pytorch/vision/issues/7319 to learn more about the APIs that we suspect might involve future changes. You can silence this warning by calling torchvision.disable_beta_transforms_warning().
+  warnings.warn(_BETA_TRANSFORMS_WARNING)
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torchvision/datapoints/__init__.py:12: UserWarning: The torchvision.datapoints and torchvision.transforms.v2 namespaces are still Beta. While we do not expect major breaking changes, some APIs may still change according to user feedback. Please submit any feedback you may have in this issue: https://github.com/pytorch/vision/issues/6753, and you can also check out https://github.com/pytorch/vision/issues/7319 to learn more about the APIs that we suspect might involve future changes. You can silence this warning by calling torchvision.disable_beta_transforms_warning().
+  warnings.warn(_BETA_TRANSFORMS_WARNING)
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torchvision/datapoints/__init__.py:12: UserWarning: The torchvision.datapoints and torchvision.transforms.v2 namespaces are still Beta. While we do not expect major breaking changes, some APIs may still change according to user feedback. Please submit any feedback you may have in this issue: https://github.com/pytorch/vision/issues/6753, and you can also check out https://github.com/pytorch/vision/issues/7319 to learn more about the APIs that we suspect might involve future changes. You can silence this warning by calling torchvision.disable_beta_transforms_warning().
+  warnings.warn(_BETA_TRANSFORMS_WARNING)
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torchvision/transforms/v2/__init__.py:54: UserWarning: The torchvision.datapoints and torchvision.transforms.v2 namespaces are still Beta. While we do not expect major breaking changes, some APIs may still change according to user feedback. Please submit any feedback you may have in this issue: https://github.com/pytorch/vision/issues/6753, and you can also check out https://github.com/pytorch/vision/issues/7319 to learn more about the APIs that we suspect might involve future changes. You can silence this warning by calling torchvision.disable_beta_transforms_warning().
+  warnings.warn(_BETA_TRANSFORMS_WARNING)
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torchvision/transforms/v2/__init__.py:54: UserWarning: The torchvision.datapoints and torchvision.transforms.v2 namespaces are still Beta. While we do not expect major breaking changes, some APIs may still change according to user feedback. Please submit any feedback you may have in this issue: https://github.com/pytorch/vision/issues/6753, and you can also check out https://github.com/pytorch/vision/issues/7319 to learn more about the APIs that we suspect might involve future changes. You can silence this warning by calling torchvision.disable_beta_transforms_warning().
+  warnings.warn(_BETA_TRANSFORMS_WARNING)
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torchvision/transforms/v2/__init__.py:54: UserWarning: The torchvision.datapoints and torchvision.transforms.v2 namespaces are still Beta. While we do not expect major breaking changes, some APIs may still change according to user feedback. Please submit any feedback you may have in this issue: https://github.com/pytorch/vision/issues/6753, and you can also check out https://github.com/pytorch/vision/issues/7319 to learn more about the APIs that we suspect might involve future changes. You can silence this warning by calling torchvision.disable_beta_transforms_warning().
+  warnings.warn(_BETA_TRANSFORMS_WARNING)
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/torchvision/transforms/v2/__init__.py:54: UserWarning: The torchvision.datapoints and torchvision.transforms.v2 namespaces are still Beta. While we do not expect major breaking changes, some APIs may still change according to user feedback. Please submit any feedback you may have in this issue: https://github.com/pytorch/vision/issues/6753, and you can also check out https://github.com/pytorch/vision/issues/7319 to learn more about the APIs that we suspect might involve future changes. You can silence this warning by calling torchvision.disable_beta_transforms_warning().
+  warnings.warn(_BETA_TRANSFORMS_WARNING)
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/diffusers/models/cross_attention.py:30: FutureWarning: Importing from cross_attention is deprecated. Please import from diffusers.models.attention_processor instead.
+  deprecate(
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/diffusers/models/cross_attention.py:30: FutureWarning: Importing from cross_attention is deprecated. Please import from diffusers.models.attention_processor instead.
+  deprecate(
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/diffusers/models/cross_attention.py:30: FutureWarning: Importing from cross_attention is deprecated. Please import from diffusers.models.attention_processor instead.
+  deprecate(
+/MAHTI_TYKKY_9QXaOsY/miniforge/envs/env1/lib/python3.8/site-packages/diffusers/models/cross_attention.py:30: FutureWarning: Importing from cross_attention is deprecated. Please import from diffusers.models.attention_processor instead.
+  deprecate(
+| distributed init (rank 2, world 4): env://
+| distributed init (rank 3, world 4): env://dist backend: nccl| distributed init (rank 0, world 4): env://
+
+
+dist backend: nccl
+dist backend: nccl
+| distributed init (rank 1, world 4): env://
+dist backend: nccl
+2026-01-15 08:49:13,956 [INFO] 
+=====  Running Parameters    =====
+2026-01-15 08:49:13,957 [INFO] {
+    "amp": true,
+    "batch_size_eval": 4,
+    "batch_size_train": 4,
+    "device": "cuda",
+    "dist_backend": "nccl",
+    "dist_url": "env://",
+    "distributed": true,
+    "evaluate": false,
+    "gpu": 0,
+    "init_lr": 0.0001,
+    "lr_sched": "linear_warmup_cosine_lr",
+    "max_epoch": 2,
+    "min_lr": 1e-05,
+    "num_workers": 0,
+    "output_dir": "output/drivegpt/cvpr/",
+    "rank": 0,
+    "resume_ckpt_path": null,
+    "seed": 42,
+    "task": "carla_drive",
+    "train_splits": [
+        "train"
+    ],
+    "valid_splits": [
+        "val"
+    ],
+    "warmup_lr": 1e-06,
+    "warmup_steps": 2000,
+    "weight_decay": 0.06,
+    "world_size": 4
+}
+2026-01-15 08:49:13,957 [INFO] 
+======  Dataset Attributes  ======
+2026-01-15 08:49:13,958 [INFO] 
+======== carla_voice =======
+2026-01-15 08:49:13,958 [INFO] {
+    "build_info": {
+        "annotations": {
+            "train": {
+                "enable_notice": true,
+                "enable_start_frame_augment": true,
+                "scale": [
+                    0.95,
+                    1.05
+                ],
+                "storage": "/scratch/project_2014099/data-lmdrive/data/Town10",
+                "token_max_length": 40,
+                "towns": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    10
+                ],
+                "weathers": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19
+                ]
+            },
+            "val": {
+                "enable_notice": true,
+                "enable_start_frame_augment": true,
+                "scale": [
+                    0.95,
+                    1.05
+                ],
+                "storage": "/scratch/project_2014099/data-lmdrive/data/Town10",
+                "token_max_length": 40,
+                "towns": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    10
+                ],
+                "weathers": [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    14,
+                    15,
+                    16,
+                    17,
+                    18,
+                    19
+                ]
+            }
+        }
+    }
+}
+2026-01-15 08:49:13,958 [INFO] 
+======  Model Attributes  ======
+2026-01-15 08:49:13,958 [INFO] {
+    "arch": "vicuna_drive",
+    "drop_path_rate": 0,
+    "finetuned": "",
+    "freeze_vit": true,
+    "image_size": 224,
+    "llm_model": "bczhou/TinyLLaVA-2.0B",
+    "load_finetuned": false,
+    "load_pretrained": true,
+    "max_txt_len": 64,
+    "model_type": "vicuna7b",
+    "num_query_token": 32,
+    "preception_model": "memfuser_baseline_e1d3_return_feature",
+    "preception_model_ckpt": "/scratch/project_2014099/previous_runs/town03/lts.pth",
+    "pretrained": "https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/InstructBLIP/instruct_blip_vicuna7b_trimmed.pth",
+    "prompt": "",
+    "split_section_num_for_visual_encoder": 2,
+    "use_extra_prompt": false,
+    "use_grad_checkpoint": false,
+    "use_notice_prompt": true,
+    "vit_precision": "fp16"
+}
+2026-01-15 08:49:14,815 [INFO] Scenario nums: 15159
+2026-01-15 08:49:15,664 [INFO] Scenario nums: 15159
+2026-01-15 08:49:16,201 [INFO] Crop type is BirdViewCropType.FRONT_AND_REAR_AREA
+Loading Q-Former
+2026-01-15 08:49:44,788 [INFO] Start training a a
+2026-01-15 08:49:44,790 [INFO] Starting training epoch 0.
+2026-01-15 08:49:44,790 [INFO] Starting training epoch 0.
+slurmstepd: error: *** JOB 5799074 ON g1101 CANCELLED AT 2026-01-15T08:51:14 ***
