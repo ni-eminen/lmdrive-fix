@@ -5,3 +5,4 @@ __pycache__/
 *.pyc
 /prev-slurms
 LAVIS/prev-slurms/
+LAVIS/slurm-*
