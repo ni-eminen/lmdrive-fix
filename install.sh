@@ -1,1 +1,1 @@
-conda-containerize update ../env-lmdrive-original/ --post-install install.txt
+conda-containerize update ../envlmdrive/ --post-install install-timm.txt

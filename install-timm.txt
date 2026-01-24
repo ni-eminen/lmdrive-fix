@@ -1,0 +1,2 @@
+cd vision_encoder
+pip install -e .
