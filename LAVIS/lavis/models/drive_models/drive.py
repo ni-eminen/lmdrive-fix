@@ -1,18 +1,20 @@
 """
 Requires Transformer 4.28 and above, implementation may change according the Llama implementation
 """
+import sys
 import logging
 import string
 from packaging import version
-import sys
+import numpy as np
 import torch
 from torch.cuda.amp import autocast as autocast
 import torch.nn as nn
-import yaml
-
+from hydra import compose, initialize
+from omegaconf import OmegaConf
 import transformers
 import peft
 from peft import LoraConfig, get_peft_model
+import yaml
 
 from lavis.common.registry import registry
 from lavis.models.blip2_models.blip2 import Blip2Base, disabled_train
@@ -52,6 +54,7 @@ class Blip2VicunaDrive(Blip2Base):
         "vicuna13b": "configs/models/blip2/blip2_instruct_vicuna13b.yaml",
     }
 
+
     def __init__(
         self,
         preception_model="",
@@ -78,22 +81,23 @@ class Blip2VicunaDrive(Blip2Base):
         from lavis.models.blip2_models.modeling_opt import OPTForCausalLM, OPTConfig
         from transformers import AutoTokenizer
         from transformers import AutoModelForCausalLM
-        # LMDRIVE-OBJ
         with open('/projappl/project_2014099/lmdrive-fix/LAVIS/lavis/projects/lmdrive/encoder_config.yaml', 'r') as file:
             encoder_config = yaml.safe_load(file)
-        # LMDRIVE-OBJ
 
         self.use_extra_prompt = use_extra_prompt
         self.use_notice_prompt = use_notice_prompt
         self.freeze_decoder_of_visual_encoder = freeze_decoder_of_visual_encoder
 
-        self.tokenizer = self.init_tokenizer(truncation_side="left")
+        # self.tokenizer = self.init_tokenizer(truncation_side="left")
         self.has_qformer = has_qformer
         self.has_gru_decoder = has_gru_decoder
         self.has_lora = has_lora
         self.split_section_num_for_visual_encoder = split_section_num_for_visual_encoder
 
-        # LMDRIVE-OBJ
+
+        # self.visual_encoder = create_model(preception_model) #TODO with timm
+
+        ## THESIS: bev slot encoder from carformer (SAVi)
         self.use_slots = True
         self.bev_encoder = ObjectLevelSlotsEncoder( # losing2: 1
             encoder_config["encoder_backbone"]
@@ -101,32 +105,31 @@ class Blip2VicunaDrive(Blip2Base):
 
         for param in self.bev_encoder.parameters():
             param.requires_grad = False
-        # LMDRIVE-OBJ
+        ## THESIS
 
-        self.visual_encoder = create_model(preception_model) #TODO with timm
-        self.ln_vision = LayerNorm(self.visual_encoder.num_features)
-        if load_pretrained:
-            pretrain_weights = torch.load(preception_model_ckpt, map_location=torch.device('cpu'))['state_dict']
-            self.visual_encoder.load_state_dict(pretrain_weights, strict=True)
+        # self.ln_vision = LayerNorm(self.visual_encoder.num_features)
+        # if load_pretrained: # THESIS: we are loading the pretrained savi within the ObjectLevelSlotsEncoder class
+        #     pretrain_weights = torch.load(preception_model_ckpt, map_location=torch.device('cpu'))['state_dict']
+        #     self.bev_encoder.load_state_dict(pretrain_weights, strict=True)
 
-        if freeze_vit:
-            for name, param in self.visual_encoder.named_parameters():
-                if not self.freeze_decoder_of_visual_encoder:
-                    if 'decoder' not in name:
-                        param.requires_grad = False
-                else:
-                    param.requires_grad = False
-            self.visual_encoder = self.visual_encoder.eval()
-            self.visual_encoder.train = disabled_train
-            logging.info("freeze vision encoder")
+        # if freeze_vit:
+        #     for name, param in self.visual_encoder.named_parameters():
+        #         if not self.freeze_decoder_of_visual_encoder:
+        #             if 'decoder' not in name:
+        #                 param.requires_grad = False
+        #         else:
+        #             param.requires_grad = False
+        #     self.visual_encoder = self.visual_encoder.eval()
+        #     self.visual_encoder.train = disabled_train
+        #     logging.info("freeze vision encoder")
 
 
         if 'opt' in llm_model:
             self.llm_tokenizer = AutoTokenizer.from_pretrained(llm_model, use_fast=False, truncation_side='left')
             self.llm_model = OPTForCausalLM.from_pretrained(llm_model, torch_dtype=torch.float16, low_cpu_mem_usage=True)
         else:
-            self.llm_tokenizer = AutoTokenizer.from_pretrained("bczhou/TinyLLaVA-3.1B", use_fast=False, truncation_side="left")
-            self.llm_model = LlamaForCausalLM.from_pretrained(llm_model, torch_dtype=torch.float16, low_cpu_mem_usage=True)
+            self.llm_tokenizer = AutoTokenizer.from_pretrained("bczhou/TinyLLaVA-3.1B",  use_fast=False, truncation_side="left", trust_remote_code=True)
+            self.llm_model = LlamaForCausalLM.from_pretrained(llm_model, trust_remote_code=True)
 
 
         self.llm_tokenizer.add_special_tokens({'pad_token': '[PAD]'})
@@ -159,7 +162,7 @@ class Blip2VicunaDrive(Blip2Base):
         if self.has_qformer:
             print('Loading Q-Former')
             self.Qformer, self.query_tokens = self.init_Qformer(
-                4, self.visual_encoder.num_features
+                4, 256# self.visual_encoder.num_features
             )
             self.Qformer.resize_token_embeddings(len(self.llm_tokenizer))
             self.Qformer.cls = None
@@ -188,6 +191,7 @@ class Blip2VicunaDrive(Blip2Base):
 
         self.waypoints_loss = torch.nn.L1Loss()
         self.end_loss = torch.nn.CrossEntropyLoss()
+
 
     def concat_text_image_input(self, input_embeds, input_atts, image_embeds, image_nums, end_flag_pos_list, image_atts=None):
         '''
@@ -247,7 +251,7 @@ class Blip2VicunaDrive(Blip2Base):
         return llm_inputs, llm_attention_mask, input_part_targets_len, wp_target_index
 
     def concat_text_image_input_with_notice(self, input_embeds, input_atts, image_embeds, image_nums,
-                                            end_flag_pos_list, notice_frame_id, notice_text, image_atts=None):
+                                            end_flag_pos_list, notice_frame_id, notice_text, image_atts=None): # concat:2
         '''
         the function is made for processing data with [inserted] notice text
         notice_frame_id: how many image frames before the notice
@@ -271,7 +275,8 @@ class Blip2VicunaDrive(Blip2Base):
             max_length=self.max_txt_len,
         ).to(image_embeds.device)
         input_notice_atts = text_input_tokens.attention_mask
-        notice_embeds = self.llm_model.get_input_embeddings()(text_input_tokens.input_ids.long()) # thesis: added .long()
+        text_input_tokens.input_ids = text_input_tokens.input_ids.long()
+        notice_embeds = self.llm_model.get_input_embeddings()(text_input_tokens.input_ids)
 
         for i in range(bs):
             this_input_ones = input_atts[i].sum()
@@ -304,8 +309,9 @@ class Blip2VicunaDrive(Blip2Base):
                 pass #TODO
             if image_atts is None:
                 bs, t, n, dim = image_embeds.size()
+                # logging.info(f"valid frames (image_nums[i] size): {image_nums}, n: {n}, t: {t}")
                 if notice_frame_id[i] < 0: # which means the scenario do not include any notice
-                    llm_attention_mask.append(
+                    llm_attention_mask.append( # concat:3
                         torch.cat([
                             input_atts[i][:this_input_ones],
                             torch.ones((image_nums[i]*n), device=image_embeds.device, dtype=torch.long),
@@ -395,57 +401,24 @@ class Blip2VicunaDrive(Blip2Base):
         return res
 
     def forward(self, samples, inference_mode=False, image_embeds=None):
-        # LMDRIVE-OBJ
-        device = samples['velocity'].device
-        bs = samples['velocity'].size(0) # batch size
-        t = samples['velocity'].size(1) # number of timesteps
-        logging.info("calling bev encoder")
-        bev_latent = self.bev_encoder( # losing2: 0
-            samples["bevslots"], # img
-            None, # "x", this is all the other features for carformer. we dont need them.
-            None, # ids, but from where?
-            slots_embeds=samples.get(
-                "bevslotslatent", None
-            ),  # If we have precomputed slots latents, use them
-            return_targets=True,
-        )
-        logging.info("called bev encoder")
+        with torch.no_grad():
+            device = samples['velocity'].device
+            bs = samples['velocity'].size(0) # batch size
+            t = samples['velocity'].size(1) # number of timesteps
 
-        bs = bev_latent.size()[0]
-        t = bev_latent.size()[1]
-        samples["bevobjectlatent"] = bev_latent
-        # LMDRIVE-OBJ
+            bev_latent = self.bev_encoder( # losing2: 0
+                samples["bevslots"], # img
+                None, # "x", this is all the other features for carformer. we dont need them.
+                None, # ids, but from where?
+                slots_embeds=samples.get(
+                    "bevslotslatent", None
+                ),  # If we have precomputed slots latents, use them
+                return_targets=True,
+            )
+            bs = bev_latent.size()[0]
+            t = bev_latent.size()[1]
+            samples["bevobjectlatent"] = bev_latent
 
-        # if image_embeds is None: # train mode
-        #     device = samples["rgb_front"].device
-        #     bs = samples['rgb_front'].size(0)
-        #     t = samples['rgb_front'].size(1)
-        #     for key in ['rgb_front', 'rgb_left', 'rgb_right', 'rgb_rear', 'rgb_center', 'lidar', 'num_points', 'velocity']:
-        #         shapz = samples[key].size()
-        #         samples[key] = samples[key].view(bs*t, *shapz[2:])
-
-        #     if self.freeze_decoder_of_visual_encoder:
-        #         with torch.no_grad():
-        #             with self.maybe_autocast():
-        #                 image_embeds_full = []
-        #                 splited_samples = self.split_data(samples)
-        #                 for i in range(self.split_section_num_for_visual_encoder):
-        #                     image_embeds = self.visual_encoder(splited_samples[i])
-        #                     image_embeds_full.append(image_embeds)
-        #                 image_embeds = torch.cat(image_embeds_full, dim=0)
-        #     else:
-        #         with self.maybe_autocast():
-        #             image_embeds = self.visual_encoder(samples)
-        # else: # inference mode
-        #     device = image_embeds.device
-        #     bs = image_embeds.size(0)
-        #     t = image_embeds.size(1)
-        #     image_embeds = image_embeds.view(bs*t, *image_embeds.size()[2:])
-
-        # logging.info("done with if image_embeds is none")
-
-
-        image_embeds = self.ln_vision(image_embeds)
         if self.has_qformer:
             bs, token_length, n, dim = bev_latent.size()
             b_l = bev_latent.reshape(bs*token_length, n, dim)
@@ -469,6 +442,8 @@ class Blip2VicunaDrive(Blip2Base):
                 encoder_attention_mask=image_atts,
                 return_dict=True,
             )
+
+        # thesis: note query_tokens.size(1) is the number of individual query vectors. query_tokens shape = bs, n, encoder_width (bert_base_uncased hidden width)
 
         image_embeds = self.llm_proj(query_output.last_hidden_state[:,:query_tokens.size(1),:])
     
@@ -563,7 +538,7 @@ class Blip2VicunaDrive(Blip2Base):
         loss = waypoints_loss + end_loss * 0.2
 
         return {"loss": loss, 'waypoints_loss': waypoints_loss, 'end_loss': end_loss, 'end_acc': end_acc}
-    
+
 
     def get_optimizer_params(self, weight_decay, lr_scale=1):
         parameter_group_names = {}
@@ -621,7 +596,7 @@ class Blip2VicunaDrive(Blip2Base):
         has_gru_decoder = cfg.get("has_gru_decoder", False)
         has_lora = cfg.get('has_lora', False)
         split_section_num_for_visual_encoder = cfg.get('split_section_num_for_visual_encoder', 2)
-
+        
         model = cls(
             img_size=img_size,
             preception_model=preception_model,
