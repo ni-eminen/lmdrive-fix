@@ -262,7 +262,7 @@ class ObjectLevelSlotsEncoder(nn.Module):
 
         self.test_time_context = config["savi"].get("test_time_context", 0)
 
-        if True: # THESIS: use the checkpoint # THESISIMPORTANT: turned off for testing with shapes 
+        if False: # THESIS: use the checkpoint # THESIS: turned off for testing with shapes 
             state_dict = torch.load(config["savi"]["checkpoint_path"])
 
             new_state_dict = {}
@@ -354,7 +354,7 @@ class ObjectLevelSlotsEncoder(nn.Module):
             "std",
             torch.tensor(config["encoder_params"]["obj_std"], dtype=torch.float32),
         )
-        self.slot_encoder = self.slot_encoder.to(torch.device("cuda:0")) # THESIS: todo remove cuda hard code
+        # self.slot_encoder = self.slot_encoder.to(torch.device("cuda:0")) # THESIS: todo remove cuda hard code
 
     def forward(
         self, slots, x=None, object_level_ids=None, slots_embeds=None, return_targets=False
