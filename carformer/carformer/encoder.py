@@ -236,7 +236,7 @@ class ObjectLevelSlotsEncoder(nn.Module):
 
         self.config = config
 
-        self.slot_encoder = torch.nn.DataParallel(StoSAVi(
+        self.slot_encoder = StoSAVi(
             config["savi"]["resolution"],
             config["savi"]["clip_len"],
             config["savi"]["slot_dict"],
@@ -245,7 +245,7 @@ class ObjectLevelSlotsEncoder(nn.Module):
             config["savi"]["pred_dict"],
             config["savi"]["loss_dict"],
             config["savi"]["eps"],
-        )) #THESIS: commented out: , device_ids=[0,1])
+        ) #THESIS: commented out: , device_ids=[0,1])
         # TODO: Move requires grad elsewhere
         self.slot_encoder.requires_grad_(False)
         self.slot_projection = nn.Linear(
