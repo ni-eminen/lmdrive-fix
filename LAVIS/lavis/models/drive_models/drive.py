@@ -416,63 +416,63 @@ class Blip2VicunaDrive(Blip2Base):
         samples["bevobjectlatent"] = bev_latent
         # LMDRIVE-OBJ
 
-        if image_embeds is None: # train mode
-            device = samples["rgb_front"].device
-            bs = samples['rgb_front'].size(0)
-            t = samples['rgb_front'].size(1)
-            for key in ['rgb_front', 'rgb_left', 'rgb_right', 'rgb_rear', 'rgb_center', 'lidar', 'num_points', 'velocity']:
-                shapz = samples[key].size()
-                samples[key] = samples[key].view(bs*t, *shapz[2:])
+        # if image_embeds is None: # train mode
+        #     device = samples["rgb_front"].device
+        #     bs = samples['rgb_front'].size(0)
+        #     t = samples['rgb_front'].size(1)
+        #     for key in ['rgb_front', 'rgb_left', 'rgb_right', 'rgb_rear', 'rgb_center', 'lidar', 'num_points', 'velocity']:
+        #         shapz = samples[key].size()
+        #         samples[key] = samples[key].view(bs*t, *shapz[2:])
 
-            if self.freeze_decoder_of_visual_encoder:
-                with torch.no_grad():
-                    with self.maybe_autocast():
-                        image_embeds_full = []
-                        splited_samples = self.split_data(samples)
-                        for i in range(self.split_section_num_for_visual_encoder):
-                            image_embeds = self.visual_encoder(splited_samples[i])
-                            image_embeds_full.append(image_embeds)
-                        image_embeds = torch.cat(image_embeds_full, dim=0)
-            else:
-                with self.maybe_autocast():
-                    image_embeds = self.visual_encoder(samples)
-        else: # inference mode
-            device = image_embeds.device
-            bs = image_embeds.size(0)
-            t = image_embeds.size(1)
-            image_embeds = image_embeds.view(bs*t, *image_embeds.size()[2:])
+        #     if self.freeze_decoder_of_visual_encoder:
+        #         with torch.no_grad():
+        #             with self.maybe_autocast():
+        #                 image_embeds_full = []
+        #                 splited_samples = self.split_data(samples)
+        #                 for i in range(self.split_section_num_for_visual_encoder):
+        #                     image_embeds = self.visual_encoder(splited_samples[i])
+        #                     image_embeds_full.append(image_embeds)
+        #                 image_embeds = torch.cat(image_embeds_full, dim=0)
+        #     else:
+        #         with self.maybe_autocast():
+        #             image_embeds = self.visual_encoder(samples)
+        # else: # inference mode
+        #     device = image_embeds.device
+        #     bs = image_embeds.size(0)
+        #     t = image_embeds.size(1)
+        #     image_embeds = image_embeds.view(bs*t, *image_embeds.size()[2:])
 
-        logging.info("done with if image_embeds is none")
+        # logging.info("done with if image_embeds is none")
 
 
         image_embeds = self.ln_vision(image_embeds)
         if self.has_qformer:
-            query_tokens = self.query_tokens.expand(image_embeds.shape[0], -1, -1)
+            bs, token_length, n, dim = bev_latent.size()
+            b_l = bev_latent.reshape(bs*token_length, n, dim)
+            query_tokens = self.query_tokens.expand(b_l.shape[0], -1, -1) # figure out the correct query token shape
             text_Qformer = self.llm_tokenizer(
-                [i for i in samples['text_input'] for _ in range(t)],
+                [i for i in samples['text_input'] for _ in range(token_length)],
                 padding='longest',
                 truncation=True,
                 max_length=self.max_txt_len,
                 return_tensors="pt",
             ).to(device)
             query_atts = torch.ones(query_tokens.size()[:-1], dtype=torch.long).to(device)
-            Qformer_atts = torch.cat([query_atts, text_Qformer.attention_mask],dim=1)
-            image_atts = torch.ones(image_embeds.size()[:-1], dtype=torch.long).to(device)
-
-            query_output = self.Qformer.bert(
+            Qformer_atts = torch.cat([query_atts, text_Qformer.attention_mask],dim=1).to(device)
+            image_atts = torch.ones(b_l.size()[:-1], dtype=torch.long).to(device)
+            
+            query_output = self.Qformer.bert( # qformer:1
                 text_Qformer.input_ids,
                 attention_mask=Qformer_atts,
                 query_embeds=query_tokens,
-                encoder_hidden_states=image_embeds,
+                encoder_hidden_states=b_l,
                 encoder_attention_mask=image_atts,
                 return_dict=True,
             )
 
-        logging.info("done with if self.has_qformer")
-
         image_embeds = self.llm_proj(query_output.last_hidden_state[:,:query_tokens.size(1),:])
-
-        image_embeds = image_embeds.view(bs, t, *image_embeds.size()[1:])
+    
+        image_embeds = image_embeds.view(bs, t, *image_embeds.size()[1:]) # THESIS: changed bs, t to bs, 1.
 
         if self.use_extra_prompt:
             text_before_img = samples['text_before_img']
@@ -501,7 +501,7 @@ class Blip2VicunaDrive(Blip2Base):
         if self.use_notice_prompt:
             llm_inputs, llm_attention_mask, input_part_targets_len, wp_target_index = self.concat_text_image_input_with_notice(inputs_embeds, text_input_tokens.attention_mask,
                                                                                                                    image_embeds, samples['valid_frames'], end_flag_pos_list,
-                                                                                                                   samples['notice_frame_id'], samples['notice_text'], image_atts)
+                                                                                                                   samples['notice_frame_id'], samples['notice_text'], image_atts) # concat:1
         else:
             llm_inputs, llm_attention_mask, input_part_targets_len, wp_target_index = self.concat_text_image_input(inputs_embeds, text_input_tokens.attention_mask,
                                                                                                                    image_embeds, samples['valid_frames'], end_flag_pos_list, image_atts)
@@ -515,7 +515,7 @@ class Blip2VicunaDrive(Blip2Base):
             )
 
         # predicted_waypoints: bs, seq_len, 10
-        if self.has_gru_decoder:
+        if self.has_gru_decoder: # CONTINUE
             output_wp = []
             _, n_tokens, _ =hidden_states.size()
             x = torch.zeros(size=(bs*n_tokens, 2), dtype=hidden_states.dtype).to(device)
@@ -562,10 +562,8 @@ class Blip2VicunaDrive(Blip2Base):
 
         loss = waypoints_loss + end_loss * 0.2
 
-        logging.info("done with forward")
-
-
         return {"loss": loss, 'waypoints_loss': waypoints_loss, 'end_loss': end_loss, 'end_acc': end_acc}
+    
 
     def get_optimizer_params(self, weight_decay, lr_scale=1):
         parameter_group_names = {}
