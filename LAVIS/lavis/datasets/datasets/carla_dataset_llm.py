@@ -303,6 +303,7 @@ class CarlaVoiceDataset(BaseIODataset):
         rgb_left = []
         rgb_right = []
         rgb_rear = []
+        birdview = []
 
         for frame_id in range(start_frame_id, end_frame_id, sample_interval):
             sensor_data = self._extract_data_item(route_path, frame_id)
@@ -313,6 +314,8 @@ class CarlaVoiceDataset(BaseIODataset):
             rgb_left.append(sensor_data['rgb_left'])
             rgb_right.append(sensor_data['rgb_right'])
             rgb_rear.append(sensor_data['rgb_rear'])
+            birdview.append(sensor_data['bevslots'])
+
 
         processed_data['lidar'] = self.pad_and_stack(lidar_data)
         processed_data['num_points'] = self.pad_and_stack(lidar_num_points)
@@ -321,6 +324,7 @@ class CarlaVoiceDataset(BaseIODataset):
         processed_data['rgb_right'] = self.pad_and_stack(rgb_right)
         processed_data['rgb_rear'] = self.pad_and_stack(rgb_rear)
         processed_data['rgb_center'] = self.pad_and_stack(rgb_center)
+        processed_data['bevslots'] = self.pad_and_stack(birdview)
 
         instruction_text = np.random.choice(self.instruction_dict[str(info['instruction_id'])])
         try:
@@ -356,6 +360,16 @@ class CarlaVoiceDataset(BaseIODataset):
     def _extract_data_item(self, route_path, frame_id):
         data = {}
         # You can use tools/data/batch_merge_data.py to generate FULL image (including front, left, right) for reducing io cost
+        transform = transforms.Compose([
+            transforms.Resize((192, 192)),
+            transforms.ToTensor()
+        ])
+
+        bev = self._load_image(
+            os.path.join(route_path, "birdview", "%04d.jpg" % frame_id)
+        )
+        bev = transform(bev) # THESIS: load only one bev image
+
         rgb_full_image = self._load_image(
             os.path.join(route_path, "rgb_full", "%04d.jpg" % frame_id)
         )
@@ -401,6 +415,7 @@ class CarlaVoiceDataset(BaseIODataset):
         data["rgb_left"] = rgb_left_image
         data["rgb_right"] = rgb_right_image
         data["rgb_rear"] = rgb_rear_image
+        data["bevslots"] = bev #bev_images
 
         data = check_data(data, info=route_path+str(frame_id))
         return data

@@ -4,10 +4,11 @@ Requires Transformer 4.28 and above, implementation may change according the Lla
 import logging
 import string
 from packaging import version
-
+import sys
 import torch
 from torch.cuda.amp import autocast as autocast
 import torch.nn as nn
+import yaml
 
 import transformers
 import peft
@@ -16,6 +17,15 @@ from peft import LoraConfig, get_peft_model
 from lavis.common.registry import registry
 from lavis.models.blip2_models.blip2 import Blip2Base, disabled_train
 from timm import create_model
+
+sys.path.insert(0, "/projappl/project_2014099/lmdrive-fix")
+sys.path.insert(0, "/projappl/project_2014099/lmdrive-fix/carformer")
+
+
+from carformer.encoder import (
+    ObjectLevelBEVEncoder,
+    ObjectLevelSlotsEncoder,
+)
 
 class LayerNorm(nn.LayerNorm):
     """Subclass torch's LayerNorm to handle fp16."""
@@ -68,6 +78,10 @@ class Blip2VicunaDrive(Blip2Base):
         from lavis.models.blip2_models.modeling_opt import OPTForCausalLM, OPTConfig
         from transformers import AutoTokenizer
         from transformers import AutoModelForCausalLM
+        # LMDRIVE-OBJ
+        with open('/projappl/project_2014099/lmdrive-obj/LAVIS/lavis/projects/lmdrive/encoder_config.yaml', 'r') as file:
+            encoder_config = yaml.safe_load(file)
+        # LMDRIVE-OBJ
 
         self.use_extra_prompt = use_extra_prompt
         self.use_notice_prompt = use_notice_prompt
@@ -79,6 +93,15 @@ class Blip2VicunaDrive(Blip2Base):
         self.has_lora = has_lora
         self.split_section_num_for_visual_encoder = split_section_num_for_visual_encoder
 
+        # LMDRIVE-OBJ
+        self.use_slots = True
+        self.bev_encoder = ObjectLevelSlotsEncoder( # losing2: 1
+            encoder_config["encoder_backbone"]
+            )
+
+        for param in self.bev_encoder.parameters():
+            param.requires_grad = False
+        # LMDRIVE-OBJ
 
         self.visual_encoder = create_model(preception_model) #TODO with timm
         self.ln_vision = LayerNorm(self.visual_encoder.num_features)
@@ -372,6 +395,26 @@ class Blip2VicunaDrive(Blip2Base):
         return res
 
     def forward(self, samples, inference_mode=False, image_embeds=None):
+        # LMDRIVE-OBJ
+        with torch.no_grad():
+            device = samples['velocity'].device
+            bs = samples['velocity'].size(0) # batch size
+            t = samples['velocity'].size(1) # number of timesteps
+
+            bev_latent = self.bev_encoder( # losing2: 0
+                samples["bevslots"], # img
+                None, # "x", this is all the other features for carformer. we dont need them.
+                None, # ids, but from where?
+                slots_embeds=samples.get(
+                    "bevslotslatent", None
+                ),  # If we have precomputed slots latents, use them
+                return_targets=True,
+            )
+            bs = bev_latent.size()[0]
+            t = bev_latent.size()[1]
+            samples["bevobjectlatent"] = bev_latent
+        # LMDRIVE-OBJ
+
         if image_embeds is None: # train mode
             device = samples["rgb_front"].device
             bs = samples['rgb_front'].size(0)
