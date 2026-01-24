@@ -354,7 +354,7 @@ class ObjectLevelSlotsEncoder(nn.Module):
             "std",
             torch.tensor(config["encoder_params"]["obj_std"], dtype=torch.float32),
         )
-        # self.slot_encoder = self.slot_encoder.to(torch.device("cuda:0"))
+        self.slot_encoder = self.slot_encoder.to(torch.device("cuda:0")) # THESIS: todo remove cuda hard code
 
     def forward(
         self, slots, x=None, object_level_ids=None, slots_embeds=None, return_targets=False
@@ -409,8 +409,6 @@ class ObjectLevelSlotsEncoder(nn.Module):
     def encode_slots(self, slots, return_attn=False): # never makes it out of here
         with torch.no_grad():
             self.slot_encoder.eval()
-
-            self.slot_encoder = self.slot_encoder.to(torch.device("cuda:0")) # THESIS: todo remove cuda hard code
 
             returned_dict = self.slot_encoder(slots, return_attn=return_attn)
 
