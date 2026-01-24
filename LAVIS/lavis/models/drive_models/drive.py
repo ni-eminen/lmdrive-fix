@@ -396,23 +396,25 @@ class Blip2VicunaDrive(Blip2Base):
 
     def forward(self, samples, inference_mode=False, image_embeds=None):
         # LMDRIVE-OBJ
-        # with torch.no_grad():
-        #     device = samples['velocity'].device
-        #     bs = samples['velocity'].size(0) # batch size
-        #     t = samples['velocity'].size(1) # number of timesteps
+        with torch.no_grad():
+            device = samples['velocity'].device
+            bs = samples['velocity'].size(0) # batch size
+            t = samples['velocity'].size(1) # number of timesteps
+            logging.info("calling bev encoder")
+            bev_latent = self.bev_encoder( # losing2: 0
+                samples["bevslots"], # img
+                None, # "x", this is all the other features for carformer. we dont need them.
+                None, # ids, but from where?
+                slots_embeds=samples.get(
+                    "bevslotslatent", None
+                ),  # If we have precomputed slots latents, use them
+                return_targets=True,
+            )
+            logging.info("called bev encoder")
 
-        #     bev_latent = self.bev_encoder( # losing2: 0
-        #         samples["bevslots"], # img
-        #         None, # "x", this is all the other features for carformer. we dont need them.
-        #         None, # ids, but from where?
-        #         slots_embeds=samples.get(
-        #             "bevslotslatent", None
-        #         ),  # If we have precomputed slots latents, use them
-        #         return_targets=True,
-        #     )
-        #     bs = bev_latent.size()[0]
-        #     t = bev_latent.size()[1]
-        #     samples["bevobjectlatent"] = bev_latent
+            bs = bev_latent.size()[0]
+            t = bev_latent.size()[1]
+            samples["bevobjectlatent"] = bev_latent
         # LMDRIVE-OBJ
 
         if image_embeds is None: # train mode
