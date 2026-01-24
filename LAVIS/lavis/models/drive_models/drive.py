@@ -443,6 +443,9 @@ class Blip2VicunaDrive(Blip2Base):
             t = image_embeds.size(1)
             image_embeds = image_embeds.view(bs*t, *image_embeds.size()[2:])
 
+        logging.info("done with if image_embeds is none")
+
+
         image_embeds = self.ln_vision(image_embeds)
         if self.has_qformer:
             query_tokens = self.query_tokens.expand(image_embeds.shape[0], -1, -1)
@@ -465,6 +468,8 @@ class Blip2VicunaDrive(Blip2Base):
                 encoder_attention_mask=image_atts,
                 return_dict=True,
             )
+
+        logging.info("done with if self.has_qformer")
 
         image_embeds = self.llm_proj(query_output.last_hidden_state[:,:query_tokens.size(1),:])
 
@@ -557,6 +562,9 @@ class Blip2VicunaDrive(Blip2Base):
         end_acc = (predicted_end == gt_end_flags).float().mean().item()
 
         loss = waypoints_loss + end_loss * 0.2
+
+        logging.info("done with forward")
+
 
         return {"loss": loss, 'waypoints_loss': waypoints_loss, 'end_loss': end_loss, 'end_acc': end_acc}
 
