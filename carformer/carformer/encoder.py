@@ -410,7 +410,7 @@ class ObjectLevelSlotsEncoder(nn.Module):
         with torch.no_grad():
             self.slot_encoder.eval()
 
-            # self.slot_encoder = self.slot_encoder.to(torch.device("cuda:0")) # THESIS: todo remove cuda hard code
+            self.slot_encoder = self.slot_encoder.to(torch.device("cuda:0")) # THESIS: todo remove cuda hard code
 
             returned_dict = self.slot_encoder(slots, return_attn=return_attn)
 
