@@ -79,7 +79,7 @@ class Blip2VicunaDrive(Blip2Base):
         from transformers import AutoTokenizer
         from transformers import AutoModelForCausalLM
         # LMDRIVE-OBJ
-        with open('/projappl/project_2014099/lmdrive-obj/LAVIS/lavis/projects/lmdrive/encoder_config.yaml', 'r') as file:
+        with open('/projappl/project_2014099/lmdrive-fix/LAVIS/lavis/projects/lmdrive/encoder_config.yaml', 'r') as file:
             encoder_config = yaml.safe_load(file)
         # LMDRIVE-OBJ
 
