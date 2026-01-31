@@ -57,18 +57,19 @@ srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none bash -lc '
     | xargs -0 -n 1 -P '"$SLURM_CPUS_PER_TASK"' -I{} tar -xzf "{}" -C "$EXTRACT_DIR"
 
   echo "Finished extraction at $(date)"
-  echo "Top-level extracted entries:"
-  ls -1 "$EXTRACT_DIR" | head
-  
+  echo "Top-level extracted entries (first 10):"
+  ls -1 "$EXTRACT_DIR" | sed -n '1,10p'
+
   echo "Total tar.gz shards:"
   ls -1 "$DATASET_PATH/$TOWN"/*.tar.gz | wc -l
 
   echo "Total extracted top-level entries:"
   find "$EXTRACT_DIR" -mindepth 1 -maxdepth 1 | wc -l
 
-  echo "Example extracted route contents:"
-  first_dir=$(find "$EXTRACT_DIR" -mindepth 1 -maxdepth 1 | head -n 1)
-  ls -1 "$first_dir" | head
+  echo "Example extracted route contents (first dir):"
+  first_dir=$(find "$EXTRACT_DIR" -mindepth 1 -maxdepth 1 -print -quit)
+  echo "first_dir=$first_dir"
+  ls -1 "$first_dir" | sed -n '1,10p'
 '
 
 PROC=/projappl/project_2014099/lmdrive-fix/tools/data_preprocessing
