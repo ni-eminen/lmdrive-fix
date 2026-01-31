@@ -22,7 +22,7 @@ datasets:
     build_info:
       annotations:
         train:
-          storage: ''
+          # storage: 'path_to_training_data' 
           towns: [1,2,3,4,5,6,7,10]
           weathers: [0,1,2,3,4,5,6,7,8,9,10,11,14,15,16,17,18,19]
           scale: [0.95, 1.05]
@@ -30,7 +30,7 @@ datasets:
           token_max_length: 40
           enable_notice: True
         val:
-          storage: ''
+          # storage: 'path_to_validation_data'
           towns: [1,2,3,4,5,6,7,10]
           weathers: [12,13,20]
           scale: [0.95, 1.05]
@@ -50,7 +50,7 @@ run:
   max_epoch: 15
   batch_size_train: 4
   batch_size_eval: 4
-  num_workers: 24
+  num_workers: 10
   warmup_steps: 2000
 
   seed: 42
