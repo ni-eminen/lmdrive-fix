@@ -15,7 +15,7 @@ GPU_NUM=4
 CONFIG_PATH=/projappl/project_2014099/lmdrive-fix/LAVIS/lavis/projects/lmdrive/notice_llava15_visual_encoder_r50_seq40.yaml
 TRAIN_FILE_PATH=/projappl/project_2014099/lmdrive-fix/LAVIS/train.py
 DATASET_PATH=/scratch/project_2014099/lmdrive-data/datasets--OpenDILabCommunity--LMDrive/snapshots/5bab4ac27d40beb13d05c2bb170a92eb3bd72f32/data
-TOWN=test_town
+TOWN=Town01
 
 if [ -z "${LOCAL_SCRATCH:-}" ]; then
   echo "ERROR: LOCAL_SCRATCH is not set"
