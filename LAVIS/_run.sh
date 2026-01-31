@@ -27,22 +27,37 @@ SCRATCH_BASE="$LOCAL_SCRATCH"
 JOB_SCRATCH="$SCRATCH_BASE/lmdrive_$SLURM_JOB_ID"
 EXTRACT_DIR="$JOB_SCRATCH/extracted/$TOWN"
 
-echo $SCRATCH_BASE
+echo "=== BATCH CONTEXT ==="
+echo "Job ID: $SLURM_JOB_ID"
+echo "Node list: $SLURM_JOB_NODELIST"
+echo "Hostname: $(hostname)"
+echo "LOCAL_SCRATCH: $LOCAL_SCRATCH"
+echo "Extract dir: $EXTRACT_DIR"
+echo "====================="
 
 # Extract shards on the allocated node
 srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none bash -lc '
   set -euo pipefail
+  echo "=== SRUN CONTEXT ==="
+  echo "Hostname: $(hostname)"
+  echo "PWD: $(pwd)"
+  echo "Extracting to: '"$EXTRACT_DIR"'"
+  echo "Using CPUs: '"$SLURM_CPUS_PER_TASK"'"
+  echo "===================="
+
   DATASET_PATH="'"$DATASET_PATH"'"
   TOWN="'"$TOWN"'"
   EXTRACT_DIR="'"$EXTRACT_DIR"'"
-  CPUS="'"$SLURM_CPUS_PER_TASK"'"
 
   mkdir -p "$EXTRACT_DIR"
 
-  find "$DATASET_PATH/$TOWN" -maxdepth 1 -name "*.tar.gz" -print0 \
-    | xargs -0 -n 1 -P "$CPUS" -I{} tar -xzf "{}" -C "$EXTRACT_DIR"
+  echo "Starting extraction at $(date)"
 
-  echo "Extracted route dirs:"
+  find "$DATASET_PATH/$TOWN" -maxdepth 1 -name "*.tar.gz" -print0 \
+    | xargs -0 -n 1 -P '"$SLURM_CPUS_PER_TASK"' -I{} tar -xzf "{}" -C "$EXTRACT_DIR"
+
+  echo "Finished extraction at $(date)"
+  echo "Top-level extracted entries:"
   ls -1 "$EXTRACT_DIR" | head
 '
 
