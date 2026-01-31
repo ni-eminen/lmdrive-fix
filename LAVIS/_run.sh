@@ -77,16 +77,16 @@ PROC=/projappl/project_2014099/lmdrive-fix/tools/data_preprocessing
 PARS=/projappl/project_2014099/lmdrive-fix/tools/data_parsing
 
 # Run preprocessing on node (sequential steps)
-srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PROC/get_list_file.py "$EXTRACT_DIR"
-srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PROC/batch_stat_blocked_data.py "$EXTRACT_DIR"
-srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PROC/batch_rm_blocked_data.py "$EXTRACT_DIR"
-srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PROC/batch_recollect_data.py "$EXTRACT_DIR"
-srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PROC/batch_merge_measurements.py "$EXTRACT_DIR"
+# srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PROC/get_list_file.py "$EXTRACT_DIR"
+# srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PROC/batch_stat_blocked_data.py "$EXTRACT_DIR"
+# srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PROC/batch_rm_blocked_data.py "$EXTRACT_DIR"
+# srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PROC/batch_recollect_data.py "$EXTRACT_DIR"
+# srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PROC/batch_merge_measurements.py "$EXTRACT_DIR"
 
-srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PARS/parse_instruction.py "$EXTRACT_DIR"
-srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PARS/parse_notice.py "$EXTRACT_DIR"
-srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PARS/parse_misleading.py "$EXTRACT_DIR"
+# srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PARS/parse_instruction.py "$EXTRACT_DIR"
+# srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PARS/parse_notice.py "$EXTRACT_DIR"
+# srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none python $PARS/parse_misleading.py "$EXTRACT_DIR"
 
-# srun torchrun --standalone --nnodes=1 --nproc_per_node=$GPU_NUM \
-#  "$TRAIN_FILE_PATH" --dataset-path "$EXTRACT_DIR" --cfg-path "$CONFIG_PATH"
+srun torchrun --standalone --nnodes=1 --nproc_per_node=$GPU_NUM \
+  "$TRAIN_FILE_PATH" --dataset-path "$EXTRACT_DIR" --cfg-path "$CONFIG_PATH"
 
