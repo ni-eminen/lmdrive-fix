@@ -16,9 +16,39 @@ TRAIN_FILE_PATH=/projappl/project_2014099/lmdrive-fix/LAVIS/train.py
 DATASET_PATH=/scratch/project_2014099/lmdrive-data/datasets--OpenDILabCommunity--LMDrive/snapshots/5bab4ac27d40beb13d05c2bb170a92eb3bd72f32/data
 TOWN=Town01
 
-for file in "$DATASET_PATH/$TOWN"/*.tar.gz; do
-  tar -xzf "$file" -C "$LOCAL_SCRATCH"
-done
+# Pre-processing
+SCRATCH_BASE="$LOCAL_SCRATCH"
+JOB_SCRATCH="$SCRATCH_BASE/lmdrive_$SLURM_JOB_ID"
+EXTRACT_DIR="$JOB_SCRATCH/extracted/"
 
-srun torchrun --standalone --nnodes=1 --nproc_per_node=$GPU_NUM $TRAIN_FILE_PATH --cfg-path $CONFIG_PATH
+# Run extraction on the allocated node (important for node-local NVMe)
+srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK bash -lc '
+  set -euo pipefail
+  DATASET_PATH="'"$DATASET_PATH"'"
+  TOWN="'"$TOWN"'"
+  EXTRACT_DIR="'"$EXTRACT_DIR"'"
+  CPUS="'"$SLURM_CPUS_PER_TASK"'"
+
+  # Parallel extract shards (faster). Safe if archives contain distinct route dirs (typical here).
+  find "$DATASET_PATH/$TOWN" -maxdepth 1 -name "*.tar.gz" -print0 \
+    | xargs -0 -n 1 -P "$CPUS" tar -xzf - -C "$EXTRACT_DIR" -f
+
+  # sanity check
+  ls -1 "$EXTRACT_DIR" | head
+'
+
+PROC=/projappl/project_2014099/lmdrive-fix/tools/data_preprocessing
+PARS=/projappl/project_2014099/lmdrive-fix/tools/data_parsing
+srun python $PROC/get_list_file.py $EXTRACT_DIR
+srun python $PROC/batch_stat_blocked_data.py $EXTRACT_DIR
+srun python $PROC/batch_rm_blocked_data.py $EXTRACT_DIR
+srun python $PROC/batch_recollect_data.py $EXTRACT_DIR
+srun python $PROC/batch_merge_measurements.py $EXTRACT_DIR
+
+srun python $PARS/parse_instruction.py $EXTRACT_DIR
+srun python $PARS/parse_notice.py $EXTRACT_DIR
+srun python $PARS/parse_misleading.py $EXTRACT_DIR
+
+
+srun torchrun --standalone --nnodes=1 --nproc_per_node=$GPU_NUM $TRAIN_FILE_PATH --dataset-path $EXTRACT_DIR --cfg-path $CONFIG_PATH
 #python -m torch.distributed.run --nproc_per_node=$GPU_NUM $TRAIN_FILE_PATH --cfg-path $CONFIG_PATH
