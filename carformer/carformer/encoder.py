@@ -262,17 +262,18 @@ class ObjectLevelSlotsEncoder(nn.Module):
 
         self.test_time_context = config["savi"].get("test_time_context", 0)
 
-        if False: # THESIS: use the checkpoint # THESIS: turned off for testing with shapes 
-            state_dict = torch.load(config["savi"]["checkpoint_path"])
+        # if False: # THESIS: use the checkpoint # THESIS: turned off for testing with shapes 
+        state_dict = torch.load(config["savi"]["checkpoint_path"])
+        logging.info(f"Loaded SAVi checkpoint from {config['savi']['checkpoint_path']}")
 
-            new_state_dict = {}
-            for k, v in state_dict["state_dict"].items():
-                if k.startswith("module.") is False:
-                    new_key = f"module.{k}"
-                    new_state_dict[new_key] = v
-                else:
-                    new_state_dict[k] = v
-            self.slot_encoder.load_state_dict(new_state_dict)
+        new_state_dict = {}
+        for k, v in state_dict["state_dict"].items():
+            if k.startswith("module.") is False:
+                new_key = f"module.{k}"
+                new_state_dict[new_key] = v
+            else:
+                new_state_dict[k] = v
+        self.slot_encoder.load_state_dict(new_state_dict)
             
 
         self.slot_encoder.eval()
