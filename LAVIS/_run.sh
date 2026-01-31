@@ -59,6 +59,9 @@ srun --ntasks=1 --cpus-per-task=$SLURM_CPUS_PER_TASK --gres=none bash -lc '
   echo "Finished extraction at $(date)"
   echo "Top-level extracted entries:"
   ls -1 "$EXTRACT_DIR" | head
+  
+  echo "Total top-level entries:"
+  find "$EXTRACT_DIR" -mindepth 1 -maxdepth 1 | wc -l
 '
 
 PROC=/projappl/project_2014099/lmdrive-fix/tools/data_preprocessing
