@@ -24,7 +24,11 @@ class Config:
 
         user_config = self._build_opt_list(self.args.options)
 
+        # THESIS: dataset path override
+        dataset_path = self.args.dataset_path
         config = OmegaConf.load(self.args.cfg_path)
+        config.datasets.carla_voice.build_info.annotations.train.storeage = dataset_path
+        config.datasets.carla_voice.build_info.annotations.val.storeage = dataset_path
 
         runner_config = self.build_runner_config(config)
         model_config = self.build_model_config(config, **user_config)
