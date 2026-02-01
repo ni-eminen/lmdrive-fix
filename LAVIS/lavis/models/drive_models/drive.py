@@ -94,7 +94,6 @@ class Blip2VicunaDrive(Blip2Base):
         self.has_lora = has_lora
         self.split_section_num_for_visual_encoder = split_section_num_for_visual_encoder
 
-
         # self.visual_encoder = create_model(preception_model) #TODO with timm
 
         ## THESIS: bev slot encoder from carformer (SAVi)
@@ -127,9 +126,12 @@ class Blip2VicunaDrive(Blip2Base):
         if 'opt' in llm_model:
             self.llm_tokenizer = AutoTokenizer.from_pretrained(llm_model, use_fast=False, truncation_side='left')
             self.llm_model = OPTForCausalLM.from_pretrained(llm_model, torch_dtype=torch.float16, low_cpu_mem_usage=True)
-        else:
+        elif llm_model == "bczhou/TinyLLaVA-2.0B":
             self.llm_tokenizer = AutoTokenizer.from_pretrained("bczhou/TinyLLaVA-3.1B",  use_fast=False, truncation_side="left", trust_remote_code=True)
             self.llm_model = LlamaForCausalLM.from_pretrained(llm_model, trust_remote_code=True)
+        elif "llava-v1.5-7b" in llm_model:
+            self.llm_tokenizer = LlamaTokenizer.from_pretrained(llm_model, use_fast=False, truncation_side="left")
+            self.llm_model = LlamaForCausalLM.from_pretrained(llm_model, torch_dtype=torch.float16, low_cpu_mem_usage=True)
 
 
         self.llm_tokenizer.add_special_tokens({'pad_token': '[PAD]'})
